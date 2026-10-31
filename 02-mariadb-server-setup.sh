@@ -2,12 +2,8 @@
 
 DEBIAN_FRONTEND=noninteractive
 
-## if installed stop it -- normally not there
-systemctl stop  mariadb 1>/dev/null 2>/dev/null
 
-
-DEBIAN_FRONTEND=noninteractive
-echo "mariadb-server	mariadb-server/feedback_optin	boolean	false" | debconf-set-selections
+#echo "mariadb-server	mariadb-server/feedback_optin	boolean	false" | debconf-set-selections
 
 apt-get -y install mariadb-server mariadb-client mariadb-backup dbconfig-common
 echo "---------------------------------------------------------------------";
@@ -16,7 +12,8 @@ echo "---------------------------------------------------------------------";
 
 
 systemctl stop  mariadb 1>/dev/null 2>/dev/null
-/bin/cp -pRv files/powermail-rootdir/etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/ 
+## old for reference
+###/bin/cp -pRv files/powermail-rootdir/etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/ 
 sed -i "s/LimitNOFILE=32768/LimitNOFILE=62768/"   /usr/lib/systemd/system/mariadb.service
 systemctl daemon-reload
 systemctl start mariadb
